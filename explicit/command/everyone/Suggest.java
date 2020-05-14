@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import explicit.Bot;
 import explicit.command.Command;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -44,7 +45,9 @@ public class Suggest extends Command {
 				}
 			}
 			TextChannel textChannel = event.getGuild().getTextChannelById(channelID);
-			textChannel.sendMessage("Suggestion From " + event.getAuthor().getAsMention() + ": " + sb.toString()).queue();
+			Message m = textChannel.sendMessage("Suggestion From " + event.getAuthor().getAsMention() + ": " + sb.toString()).complete();
+			m.addReaction("👍").queue();
+			m.addReaction("👎").queue();
 			event.getChannel().sendMessage("Successfully added your suggestion in " + textChannel.getAsMention()).queue();
 		} else if (args.length > 1) {
 			event.getChannel().sendMessage("The channel is not setup").queue();
